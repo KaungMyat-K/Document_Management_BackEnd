@@ -1,8 +1,10 @@
-package com.documentMgmt.enumeration;
+package com.documentMgmt.enumeration.converter;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import java.util.stream.Stream;
+
+import com.documentMgmt.enumeration.Authority;
 
 @Converter(autoApply = true)
 public class RoleConverter implements AttributeConverter<Authority,String>{

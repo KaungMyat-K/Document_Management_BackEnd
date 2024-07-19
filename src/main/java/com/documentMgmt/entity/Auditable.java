@@ -18,6 +18,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,8 +31,11 @@ import lombok.Setter;
 public abstract class Auditable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "primary_key_seq",sequenceName = "primary_key_seq",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "primary_key_seq")
+    @Column(name="id",updatable = false)
     private Long id;
+    
     private String referenceId = new AlternativeJdkIdGenerator().generateId().toString();
 
     @NotNull
@@ -57,8 +61,8 @@ public abstract class Auditable {
         }
         setCreatedAt(LocalDateTime.now());
         setCreatedBy(userId);
-        setUpdatedBy(userId);
         setUpdatedAt(LocalDateTime.now());
+        setUpdatedBy(userId);
     }
 
     @PreUpdate
@@ -69,6 +73,5 @@ public abstract class Auditable {
         }
         setUpdatedAt(LocalDateTime.now());
         setUpdatedBy(userId);
-
     }
 }
