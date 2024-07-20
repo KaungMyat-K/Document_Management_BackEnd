@@ -13,8 +13,9 @@ import com.documentMgmt.utils.EmailUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Service
+
 @Slf4j
+@Service
 public class EmailServiceImpl implements EmailService{
 
     private static final String NEW_USER_ACCOUNT_VERIFICATION = "New User Account Verification";
@@ -23,9 +24,9 @@ public class EmailServiceImpl implements EmailService{
     @Autowired
     private JavaMailSender javaMailSender;    
 
-    @Value("${spring,mail.verify.host}")
+    @Value("${spring.mail.host}")
     private String host;
-    @Value("${spring,mail.username}")
+    @Value("${spring.mail.username}")
     private String fromEmail;
 
     @Override

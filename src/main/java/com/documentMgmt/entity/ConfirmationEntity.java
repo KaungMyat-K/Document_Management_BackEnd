@@ -30,11 +30,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "confirmation")
+@Table(name = "confirmations")
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class ConfirmationEntity extends Auditable {
     
-    private String key;
+    private String tokenKey;
 
     @OneToOne(targetEntity = UserEntity.class,fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id",nullable = false)
@@ -42,11 +42,11 @@ public class ConfirmationEntity extends Auditable {
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     @JsonProperty("user_id")
-    private UserEntity userEntity;
+     private UserEntity userEntity;
 
 
     public ConfirmationEntity(UserEntity userEntity){
         this.userEntity = userEntity;
-        this.key = UUID.randomUUID().toString();
+        this.tokenKey = UUID.randomUUID().toString();
     }
 }
