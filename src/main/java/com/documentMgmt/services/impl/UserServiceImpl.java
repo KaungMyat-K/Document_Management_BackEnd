@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private RoleRepository reolRepository;
+    private RoleRepository roleRepository;
 
     @Autowired
     private CredentialRepository credentialRepository;
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public RolesEntity getRoleName(String roleName) {
-        var role = reolRepository.findByNameIgnoreCase(roleName);
+        var role = roleRepository.findByNameIgnoreCase(roleName);
         return role.orElseThrow(()-> new ApiException("Roles not found"));
     }
 
