@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.documentMgmt.entity.ConfirmationEntity;
@@ -69,10 +68,25 @@ public class UserServiceImpl implements UserService {
         return UserUtils.createUserEntity(firstName, lastName, email, role);
     }
 
+    @Override
+    public void verifyAccountKey(String tokenKey) {
+        var confirmationEntity = getUserConfirmation(tokenKey);
+        UserEntity userEntity = getUserEntityByEmail(confirmationEntity.getUserEntity().getEmail());
+        userEntity.setEnable(true);
+        userRepository.save(userEntity);
+        confirmationRepository.delete(confirmationEntity);
+    }
+
     
+    private UserEntity getUserEntityByEmail(String email){
+        var userByEmail = userRepository.findByEmailIgnoreCase(email);
+        return userByEmail.orElseThrow(()->new ApiException("User not found"));
+    }
     
 
-
+    private ConfirmationEntity getUserConfirmation(String tokenKey){
+        return confirmationRepository.findBytokenKey(tokenKey).orElseThrow(()->new ApiException("Confirmation key not found"));
+    }
 
 
     

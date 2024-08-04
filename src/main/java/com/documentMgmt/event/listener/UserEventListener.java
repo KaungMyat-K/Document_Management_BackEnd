@@ -16,8 +16,11 @@ public class UserEventListener {
     @EventListener
     public void onUserEvent(UserEvent userEvent){
         switch (userEvent.getType()) {
-            case REGISTRATION -> emailService.sendNewAccountEmail(userEvent.getUser().getFirstName(),userEvent.getUser().getEmail(),(String)userEvent.getData().get("key"));
-            case RESETPASSWORD -> emailService.sendPasswordResetEmail(userEvent.getUser().getFirstName(),userEvent.getUser().getEmail(),(String)userEvent.getData().get("key"));
+
+            case REGISTRATION -> emailService.sendNewAccountEmail(userEvent.getUser().getFirstName(),userEvent.getUser().getEmail(),(String)userEvent.getData().get("tokenKey"));
+
+            case RESETPASSWORD -> emailService.sendPasswordResetEmail(userEvent.getUser().getFirstName(),userEvent.getUser().getEmail(),(String)userEvent.getData().get("tokenKey"));
+
             default -> {}
         }
     }
